@@ -1,4 +1,4 @@
-name: Build OwlMeans Web Id
+name: Build OwlMeans VC Schemas
 
 on:
   push:
