@@ -1,0 +1,31 @@
+name: Build OwlMeans Web Id
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Login to Docker Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push to registry
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          context: .
+          file: ./deploy/deploy.dockerfile
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/vc-schemas:latest
+            ghcr.io/${{ github.repository_owner }}/vc-schemas:0.1.0
